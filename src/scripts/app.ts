@@ -24,13 +24,21 @@ async function processFile(file: string): Promise<FileHash> {
     return new FileHash(file, hash);
 }
 
+async function fetchFileHashes(directory: string): Promise<FileHash[]> {
+    const promises: Promise<FileHash>[] = [];
+
+    const files = fs.readdirSync(directory);
+    files.forEach(file => {
+        const result = processFile(`${directory}/${file}`);
+        promises.push(result);
+    })
+
+    return Promise.all(promises);
+}
+
 const args = process.argv.slice(2);
 const srcDir = args[0];
 
-fs.readdir(srcDir, (err, files) => {
-    files.forEach(file => {
-        processFile(`${srcDir}/${file}`).then(fileHash => {
-            console.log(fileHash);
-        })
-    });
+fetchFileHashes(srcDir).then(md5Files => {
+    console.log(md5Files.length);
 })
