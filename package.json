@@ -1,0 +1,13 @@
+{
+  "name": "npm-dup-detection",
+  "version": "1.0.0",
+  "description": "Detect duplicate files.",
+  "main": "build/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@types/node": "^12.12.54",
+    "md5-file": "^5.0.0"
+  }
+}
