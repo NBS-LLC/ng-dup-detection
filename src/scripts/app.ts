@@ -36,9 +36,27 @@ async function fetchFileHashes(directory: string): Promise<FileHash[]> {
     return Promise.all(promises);
 }
 
+function fileHashExists(hash: string, fileHashes: FileHash[]): boolean {
+    return fileHashes.findIndex(f => f.hash === hash) !== -1;
+}
+
 const args = process.argv.slice(2);
 const srcDir = args[0];
 
-fetchFileHashes(srcDir).then(md5Files => {
-    console.log(md5Files.length);
-})
+(async () => {
+    const unique: FileHash[] = [];
+    const duplicate: FileHash[] = [];
+
+    const md5Files = await fetchFileHashes(srcDir);
+
+    md5Files.forEach(fileHash => {
+        if (!fileHashExists(fileHash.hash, unique)) {
+            unique.push(fileHash);
+        } else {
+            duplicate.push(fileHash);
+        }
+    })
+
+    console.log(duplicate.length);
+    console.log(duplicate);
+})();
