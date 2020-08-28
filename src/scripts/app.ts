@@ -1,3 +1,19 @@
+///////////////////////////////////////////////////////////////////////////////
+// npm-dup-detection
+//
+// A command line tool for finding and moving duplicate files. Duplicate files
+// are moved into a 'dubs' sub-directory.
+//
+// Usage:
+// > node app.js full_path
+//
+// Where "full_path" is the full path to a directory containing duplicate files.
+//
+// Note: The script does not walk the directory structure.
+//
+// Author: Nick Derevjanik <nick@networkbasedsolutions.com>
+///////////////////////////////////////////////////////////////////////////////
+
 import * as fs from 'fs';
 import * as md5 from 'md5-file';
 
@@ -55,6 +71,10 @@ function moveDuplicate(fileHash: FileHash, destination: string) {
 
     console.log(`Moved the duplicate file: ${oldFilePath} to ${newFilePath}.`);
 }
+
+///////////////////////////////////////////////////////////////////////////////
+// Application
+///////////////////////////////////////////////////////////////////////////////
 
 const args = process.argv.slice(2);
 const srcDir = args[0];
